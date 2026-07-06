@@ -14,10 +14,9 @@ export type ContactSubmission = {
   created_at: string;
 };
 
-async function assertAdmin(context: {
-  supabase: ReturnType<typeof Object> & any;
-  userId: string;
-}) {
+type AuthedContext = { supabase: SupabaseClient<Database>; userId: string };
+
+async function assertAdmin(context: AuthedContext) {
   const { data, error } = await context.supabase.rpc("has_role", {
     _user_id: context.userId,
     _role: "admin",
