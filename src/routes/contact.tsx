@@ -161,9 +161,18 @@ function Contact() {
               </div>
               <button
                 type="submit"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-secondary px-6 py-3 text-sm font-semibold text-secondary-foreground shadow-gold transition-transform hover:-translate-y-0.5"
+                disabled={loading}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-secondary px-6 py-3 text-sm font-semibold text-secondary-foreground shadow-gold transition-transform hover:-translate-y-0.5 disabled:opacity-60"
               >
-                Send Message <Send className="h-4 w-4" />
+                {loading ? (
+                  <>
+                    Sending <Loader2 className="h-4 w-4 animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    Send Message <Send className="h-4 w-4" />
+                  </>
+                )}
               </button>
             </form>
           </div>
