@@ -109,9 +109,12 @@ export function Footer() {
       </div>
 
       <div className="border-t border-primary-foreground/10">
-        <p className="mx-auto max-w-7xl px-4 py-6 text-center text-xs text-primary-foreground/60 sm:px-6">
-          © {new Date().getFullYear()} ANALOG IAS ACADEMY. All rights reserved.
-        </p>
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-6 text-center text-xs text-primary-foreground/60 sm:flex-row sm:px-6">
+          <p>© {new Date().getFullYear()} ANALOG IAS ACADEMY. All rights reserved.</p>
+          <Link to="/admin" className="transition-colors hover:text-gold">
+            Admin
+          </Link>
+        </div>
       </div>
     </footer>
   );
