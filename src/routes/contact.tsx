@@ -132,6 +132,13 @@ function Contact() {
               </div>
             )}
 
+            {error && (
+              <div className="mt-5 flex items-center gap-2 rounded-lg bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive">
+                <AlertCircle className="h-5 w-5" />
+                {error}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field label="Full Name" name="name" placeholder="Your name" required />
