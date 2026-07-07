@@ -151,7 +151,7 @@ function Index() {
             subtitle="Comprehensive courses covering every stage of the Civil Services journey."
           />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {courses.slice(0, 3).map((course) => {
+            {courses.slice(0, 3).map((course: CourseRow) => {
               const Icon = getIcon(course.icon);
               const img = mediaUrl(course.image_url);
               return (
@@ -187,7 +187,7 @@ function Index() {
           subtitle="Consistent top ranks year after year, a testament to our proven methodology."
         />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {results.slice(0, 4).map((r) => {
+          {results.slice(0, 4).map((r: ResultRow) => {
             const img = mediaUrl(r.image_url);
             return (
               <div key={r.id} className="hover-lift overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
