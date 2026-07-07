@@ -6,7 +6,8 @@ import type { Database } from "@/integrations/supabase/types";
 
 export type CourseRow = Database["public"]["Tables"]["courses"]["Row"];
 export type ResultRow = Database["public"]["Tables"]["results"]["Row"];
-export type PageData = Record<string, unknown>;
+export type Json = Database["public"]["Tables"]["page_content"]["Row"]["data"];
+export type PageData = Record<string, Json>;
 
 function publicClient() {
   return createClient<Database>(
