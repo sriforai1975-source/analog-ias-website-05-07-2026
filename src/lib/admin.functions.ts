@@ -18,13 +18,20 @@ export type ContactSubmission = {
 
 type AuthedContext = { supabase: SupabaseClient<Database>; userId: string };
 
-async function assertAdmin(context: AuthedContext) {
-  const { data, error } = await context.supabase.rpc("has_role", {
-    _user_id: context.userId,
-    _role: "admin",
-  });
+async function isAdmin(context: AuthedContext): Promise<boolean> {
+  // Users can read their own roles via RLS; no public RPC needed.
+  const { data, error } = await context.supabase
+    .from("user_roles")
+    .select("id")
+    .eq("user_id", context.userId)
+    .eq("role", "admin")
+    .maybeSingle();
   if (error) throw new Error("Could not verify permissions");
-  if (!data) throw new Error("Forbidden");
+  return Boolean(data);
+}
+
+async function assertAdmin(context: AuthedContext) {
+  if (!(await isAdmin(context))) throw new Error("Forbidden");
 }
 
 /**
@@ -45,11 +52,7 @@ export const bootstrapAdmin = createServerFn({ method: "POST" })
 
     if ((count ?? 0) > 0) {
       // An admin already exists — do not grant to anyone else automatically.
-      const { data: isAdmin } = await context.supabase.rpc("has_role", {
-        _user_id: context.userId,
-        _role: "admin",
-      });
-      return { isAdmin: Boolean(isAdmin), granted: false };
+      return { isAdmin: await isAdmin(context), granted: false };
     }
 
     const { error: insertError } = await supabaseAdmin
@@ -64,11 +67,7 @@ export const bootstrapAdmin = createServerFn({ method: "POST" })
 export const getMyAdminStatus = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data } = await context.supabase.rpc("has_role", {
-      _user_id: context.userId,
-      _role: "admin",
-    });
-    return { isAdmin: Boolean(data) };
+    return { isAdmin: await isAdmin(context) };
   });
 
 export const listSubmissions = createServerFn({ method: "GET" })
