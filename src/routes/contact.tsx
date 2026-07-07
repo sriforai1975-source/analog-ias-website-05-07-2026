@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
 import { SectionHeading } from "../components/SectionHeading";
+import { getPageContent, type PageData } from "../lib/content.functions";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -19,20 +20,35 @@ export const Route = createFileRoute("/contact")({
       },
     ],
   }),
+  loader: async () => ({ content: await getPageContent({ data: { page: "contact" } }) }),
   component: Contact,
+  errorComponent: () => (
+    <div className="grid min-h-[50vh] place-items-center text-muted-foreground">
+      This page didn't load. Please refresh.
+    </div>
+  ),
+  notFoundComponent: () => <div className="p-10 text-center">Not found.</div>,
 });
 
-const details = [
-  { icon: MapPin, title: "Address", lines: ["ANALOG IAS ACADEMY", "1-2-3 Ashok Nagar, Main Road", "Hyderabad, Telangana 500020"] },
-  { icon: Phone, title: "Phone", lines: ["+91 98765 43210", "+91 98765 43211"] },
-  { icon: Mail, title: "Email", lines: ["info@analogias.com", "admissions@analogias.com"] },
-  { icon: Clock, title: "Office Hours", lines: ["Mon – Sat: 9:00 AM – 7:00 PM", "Sunday: Closed"] },
-];
+function list(c: PageData, key: string, fallback: string[]): string[] {
+  const v = c[key];
+  return Array.isArray(v) && v.length > 0 ? (v as string[]) : fallback;
+}
 
 function Contact() {
+  const { content } = Route.useLoaderData();
+  const c = content as PageData;
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const details = [
+    { icon: MapPin, title: "Address", lines: list(c, "address", ["ANALOG IAS ACADEMY", "1-2-3 Ashok Nagar, Main Road", "Hyderabad, Telangana 500020"]) },
+    { icon: Phone, title: "Phone", lines: list(c, "phone", ["+91 98765 43210", "+91 98765 43211"]) },
+    { icon: Mail, title: "Email", lines: list(c, "email", ["info@analogias.com", "admissions@analogias.com"]) },
+    { icon: Clock, title: "Office Hours", lines: list(c, "hours", ["Mon – Sat: 9:00 AM – 7:00 PM", "Sunday: Closed"]) },
+  ];
+  const mapUrl = typeof c.map_embed_url === "string" ? c.map_embed_url : "";
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -86,7 +102,6 @@ function Contact() {
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
         <div className="grid gap-10 lg:grid-cols-2">
-          {/* Details + map */}
           <div>
             <SectionHeading center={false} eyebrow="Get in Touch" title="Contact Information" />
             <div className="mt-8 grid gap-5 sm:grid-cols-2">
@@ -108,17 +123,26 @@ function Contact() {
             </div>
 
             <div className="mt-6 overflow-hidden rounded-2xl border border-border shadow-soft">
-              <div className="grid h-64 place-items-center bg-muted">
-                <div className="text-center text-muted-foreground">
-                  <MapPin className="mx-auto h-10 w-10 text-gold" />
-                  <p className="mt-2 text-sm font-medium">Google Maps</p>
-                  <p className="text-xs">Map location placeholder</p>
+              {mapUrl ? (
+                <iframe
+                  title="Location map"
+                  src={mapUrl}
+                  className="h-64 w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              ) : (
+                <div className="grid h-64 place-items-center bg-muted">
+                  <div className="text-center text-muted-foreground">
+                    <MapPin className="mx-auto h-10 w-10 text-gold" />
+                    <p className="mt-2 text-sm font-medium">Google Maps</p>
+                    <p className="text-xs">Add a map embed URL from the admin dashboard.</p>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
-          {/* Form */}
           <div className="rounded-2xl border border-border bg-card p-6 shadow-card sm:p-8">
             <h2 className="text-2xl font-bold text-foreground">Send a Message</h2>
             <p className="mt-1 text-sm text-muted-foreground">

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Award, Users, GraduationCap, HeartHandshake, CheckCircle2, ArrowRight } from "lucide-react";
 import aboutImg from "../assets/about.jpg";
 import { SectionHeading } from "../components/SectionHeading";
+import { getPageContent, type PageData } from "../lib/content.functions";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -19,7 +20,14 @@ export const Route = createFileRoute("/about")({
       },
     ],
   }),
+  loader: async () => ({ content: await getPageContent({ data: { page: "about" } }) }),
   component: About,
+  errorComponent: () => (
+    <div className="grid min-h-[50vh] place-items-center text-muted-foreground">
+      This page didn't load. Please refresh.
+    </div>
+  ),
+  notFoundComponent: () => <div className="p-10 text-center">Not found.</div>,
 });
 
 const pillars = [
@@ -29,7 +37,7 @@ const pillars = [
   { icon: HeartHandshake, title: "Student-First Approach", desc: "Personalised mentoring, regular feedback and unwavering support at every stage." },
 ];
 
-const values = [
+const defaultValues = [
   "Structured, syllabus-aligned curriculum",
   "Comprehensive test series and evaluation",
   "Up-to-date current affairs coverage",
@@ -38,7 +46,17 @@ const values = [
   "Motivational and disciplined environment",
 ];
 
+function str(c: PageData, key: string, fallback: string): string {
+  const v = c[key];
+  return typeof v === "string" && v ? v : fallback;
+}
+
 function About() {
+  const { content } = Route.useLoaderData();
+  const c = content as PageData;
+  const values =
+    Array.isArray(c.values) && c.values.length > 0 ? (c.values as string[]) : defaultValues;
+
   return (
     <>
       <section className="bg-primary text-primary-foreground">
@@ -47,11 +65,14 @@ function About() {
             About Us
           </span>
           <h1 className="mt-4 max-w-3xl text-4xl font-extrabold sm:text-5xl">
-            Shaping India's Administrators for Over Two Decades
+            {str(c, "hero_title", "Shaping India's Administrators for Over Two Decades")}
           </h1>
           <p className="mt-4 max-w-2xl text-primary-foreground/80">
-            ANALOG IAS ACADEMY is a leading Civil Services institution committed to guiding aspirants
-            towards success through expert faculty, structured mentoring and a proven methodology.
+            {str(
+              c,
+              "hero_subtitle",
+              "ANALOG IAS ACADEMY is a leading Civil Services institution committed to guiding aspirants towards success through expert faculty, structured mentoring and a proven methodology.",
+            )}
           </p>
         </div>
       </section>
@@ -69,16 +90,21 @@ function About() {
           <SectionHeading
             center={false}
             eyebrow="Our Story"
-            title="A Mission Rooted in Excellence"
+            title={str(c, "story_title", "A Mission Rooted in Excellence")}
           />
           <p className="mt-5 text-muted-foreground">
-            For more than 25 years, ANALOG IAS ACADEMY has been a trusted name in Civil Services
-            preparation. What began as a small mentoring initiative has grown into a premier academy
-            that has produced hundreds of successful officers.
+            {str(
+              c,
+              "story_p1",
+              "For more than 25 years, ANALOG IAS ACADEMY has been a trusted name in Civil Services preparation. What began as a small mentoring initiative has grown into a premier academy that has produced hundreds of successful officers.",
+            )}
           </p>
           <p className="mt-4 text-muted-foreground">
-            Our philosophy is simple — put the student first. We combine rigorous academics with
-            personalised guidance, ensuring every aspirant receives the attention they deserve.
+            {str(
+              c,
+              "story_p2",
+              "Our philosophy is simple — put the student first. We combine rigorous academics with personalised guidance, ensuring every aspirant receives the attention they deserve.",
+            )}
           </p>
           <ul className="mt-6 grid gap-3 sm:grid-cols-2">
             {values.map((v) => (
@@ -93,10 +119,7 @@ function About() {
 
       <section className="bg-muted/50">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
-          <SectionHeading
-            eyebrow="What Sets Us Apart"
-            title="The ANALOG Advantage"
-          />
+          <SectionHeading eyebrow="What Sets Us Apart" title="The ANALOG Advantage" />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map((p) => (
               <div key={p.title} className="hover-lift rounded-2xl border border-border bg-card p-6 shadow-soft">

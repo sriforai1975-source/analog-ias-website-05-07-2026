@@ -10,8 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SetPasswordRouteImport } from './routes/set-password'
 import { Route as ResultsRouteImport } from './routes/results'
-import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -20,20 +20,21 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SetPasswordRoute = SetPasswordRouteImport.update({
+  id: '/set-password',
+  path: '/set-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResultsRoute = ResultsRouteImport.update({
   id: '/results',
   path: '/results',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GalleryRoute = GalleryRouteImport.update({
-  id: '/gallery',
-  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoursesRoute = CoursesRouteImport.update({
@@ -75,6 +76,11 @@ const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   path: '/api/public/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,11 +88,12 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
-  '/gallery': typeof GalleryRoute
   '/results': typeof ResultsRoute
+  '/set-password': typeof SetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,11 +101,12 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
-  '/gallery': typeof GalleryRoute
   '/results': typeof ResultsRoute
+  '/set-password': typeof SetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -108,11 +116,12 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
-  '/gallery': typeof GalleryRoute
   '/results': typeof ResultsRoute
+  '/set-password': typeof SetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -122,11 +131,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/courses'
-    | '/gallery'
     | '/results'
+    | '/set-password'
     | '/sitemap.xml'
     | '/admin'
     | '/api/public/contact'
+    | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -134,11 +144,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/courses'
-    | '/gallery'
     | '/results'
+    | '/set-password'
     | '/sitemap.xml'
     | '/admin'
     | '/api/public/contact'
+    | '/api/public/media/$'
   id:
     | '__root__'
     | '/'
@@ -147,11 +158,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/courses'
-    | '/gallery'
     | '/results'
+    | '/set-password'
     | '/sitemap.xml'
     | '/_authenticated/admin'
     | '/api/public/contact'
+    | '/api/public/media/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -161,10 +173,11 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   CoursesRoute: typeof CoursesRoute
-  GalleryRoute: typeof GalleryRoute
   ResultsRoute: typeof ResultsRoute
+  SetPasswordRoute: typeof SetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
+  ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -176,18 +189,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/set-password': {
+      id: '/set-password'
+      path: '/set-password'
+      fullPath: '/set-password'
+      preLoaderRoute: typeof SetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/results': {
       id: '/results'
       path: '/results'
       fullPath: '/results'
       preLoaderRoute: typeof ResultsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gallery': {
-      id: '/gallery'
-      path: '/gallery'
-      fullPath: '/gallery'
-      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/courses': {
@@ -246,6 +259,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -267,10 +287,11 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   CoursesRoute: CoursesRoute,
-  GalleryRoute: GalleryRoute,
   ResultsRoute: ResultsRoute,
+  SetPasswordRoute: SetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
+  ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

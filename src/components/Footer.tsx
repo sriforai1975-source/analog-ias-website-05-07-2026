@@ -13,7 +13,7 @@ const quickLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About Us" },
   { to: "/results", label: "Results" },
-  { to: "/gallery", label: "Gallery" },
+  
   { to: "/contact", label: "Contact" },
 ] as const;
 

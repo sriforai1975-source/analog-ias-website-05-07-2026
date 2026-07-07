@@ -47,6 +47,96 @@ export type Database = {
         }
         Relationships: []
       }
+      courses: {
+        Row: {
+          created_at: string
+          description: string
+          icon: string | null
+          id: string
+          image_url: string | null
+          is_published: boolean
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      page_content: {
+        Row: {
+          data: Json
+          page: string
+          updated_at: string
+        }
+        Insert: {
+          data?: Json
+          page: string
+          updated_at?: string
+        }
+        Update: {
+          data?: Json
+          page?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      results: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string | null
+          is_published: boolean
+          name: string
+          rank: string
+          sort_order: number
+          updated_at: string
+          year: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          name: string
+          rank?: string
+          sort_order?: number
+          updated_at?: string
+          year?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          name?: string
+          rank?: string
+          sort_order?: number
+          updated_at?: string
+          year?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -76,7 +166,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role: "admin" | "user" | "editor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -204,7 +294,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: ["admin", "user", "editor"],
     },
   },
 } as const
