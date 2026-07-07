@@ -7,6 +7,8 @@ import {
   getPublicCourses,
   getPublicResults,
   type PageData,
+  type CourseRow,
+  type ResultRow,
 } from "../lib/content.functions";
 import { getIcon } from "../lib/icon-map";
 import { mediaUrl } from "../lib/media";
