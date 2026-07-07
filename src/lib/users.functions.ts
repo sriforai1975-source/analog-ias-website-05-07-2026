@@ -27,17 +27,7 @@ async function assertAdmin(context: AuthedContext) {
   if (!data) throw new Error("Forbidden");
 }
 
-type AdminClient = Awaited<
-  ReturnType<typeof import("@/integrations/supabase/client.server")["supabaseAdmin"]["from"]>
->;
-
-async function countAdmins(admin: {
-  from: (t: string) => {
-    select: (c: string, o: { count: "exact"; head: true }) => {
-      eq: (col: string, v: string) => Promise<{ count: number | null }>;
-    };
-  };
-}): Promise<number> {
+async function countAdmins(admin: SupabaseClient<Database>): Promise<number> {
   const { count } = await admin
     .from("user_roles")
     .select("*", { count: "exact", head: true })
