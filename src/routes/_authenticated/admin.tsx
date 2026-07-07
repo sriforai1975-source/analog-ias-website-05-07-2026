@@ -128,10 +128,9 @@ function AdminPage() {
 
 function TeamManagerLoader() {
   const [userId, setUserId] = useState<string | null>(null);
-  useState(() => {
+  useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
-    return undefined;
-  });
+  }, []);
   if (!userId) {
     return (
       <div className="grid place-items-center py-16">
