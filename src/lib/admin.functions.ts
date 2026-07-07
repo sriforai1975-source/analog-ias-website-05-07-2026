@@ -52,11 +52,7 @@ export const bootstrapAdmin = createServerFn({ method: "POST" })
 
     if ((count ?? 0) > 0) {
       // An admin already exists — do not grant to anyone else automatically.
-      const { data: isAdmin } = await context.supabase.rpc("has_role", {
-        _user_id: context.userId,
-        _role: "admin",
-      });
-      return { isAdmin: Boolean(isAdmin), granted: false };
+      return { isAdmin: await isAdmin(context), granted: false };
     }
 
     const { error: insertError } = await supabaseAdmin
