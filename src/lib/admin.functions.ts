@@ -18,13 +18,20 @@ export type ContactSubmission = {
 
 type AuthedContext = { supabase: SupabaseClient<Database>; userId: string };
 
-async function assertAdmin(context: AuthedContext) {
-  const { data, error } = await context.supabase.rpc("has_role", {
-    _user_id: context.userId,
-    _role: "admin",
-  });
+async function isAdmin(context: AuthedContext): Promise<boolean> {
+  // Users can read their own roles via RLS; no public RPC needed.
+  const { data, error } = await context.supabase
+    .from("user_roles")
+    .select("id")
+    .eq("user_id", context.userId)
+    .eq("role", "admin")
+    .maybeSingle();
   if (error) throw new Error("Could not verify permissions");
-  if (!data) throw new Error("Forbidden");
+  return Boolean(data);
+}
+
+async function assertAdmin(context: AuthedContext) {
+  if (!(await isAdmin(context))) throw new Error("Forbidden");
 }
 
 /**
