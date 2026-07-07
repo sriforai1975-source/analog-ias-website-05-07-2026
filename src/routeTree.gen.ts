@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SetPasswordRouteImport } from './routes/set-password'
 import { Route as ResultsRouteImport } from './routes/results'
-import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -36,11 +35,6 @@ const SetPasswordRoute = SetPasswordRouteImport.update({
 const ResultsRoute = ResultsRouteImport.update({
   id: '/results',
   path: '/results',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GalleryRoute = GalleryRouteImport.update({
-  id: '/gallery',
-  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoursesRoute = CoursesRouteImport.update({
@@ -94,7 +88,6 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
-  '/gallery': typeof GalleryRoute
   '/results': typeof ResultsRoute
   '/set-password': typeof SetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -108,7 +101,6 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
-  '/gallery': typeof GalleryRoute
   '/results': typeof ResultsRoute
   '/set-password': typeof SetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -124,7 +116,6 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
-  '/gallery': typeof GalleryRoute
   '/results': typeof ResultsRoute
   '/set-password': typeof SetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -140,7 +131,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/courses'
-    | '/gallery'
     | '/results'
     | '/set-password'
     | '/sitemap.xml'
@@ -154,7 +144,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/courses'
-    | '/gallery'
     | '/results'
     | '/set-password'
     | '/sitemap.xml'
@@ -169,7 +158,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/courses'
-    | '/gallery'
     | '/results'
     | '/set-password'
     | '/sitemap.xml'
@@ -185,7 +173,6 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   CoursesRoute: typeof CoursesRoute
-  GalleryRoute: typeof GalleryRoute
   ResultsRoute: typeof ResultsRoute
   SetPasswordRoute: typeof SetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -214,13 +201,6 @@ declare module '@tanstack/react-router' {
       path: '/results'
       fullPath: '/results'
       preLoaderRoute: typeof ResultsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gallery': {
-      id: '/gallery'
-      path: '/gallery'
-      fullPath: '/gallery'
-      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/courses': {
@@ -307,7 +287,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   CoursesRoute: CoursesRoute,
-  GalleryRoute: GalleryRoute,
   ResultsRoute: ResultsRoute,
   SetPasswordRoute: SetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
