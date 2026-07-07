@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SetPasswordRouteImport } from './routes/set-password'
 import { Route as ResultsRouteImport } from './routes/results'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as CoursesRouteImport } from './routes/courses'
@@ -25,6 +26,11 @@ import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/med
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetPasswordRoute = SetPasswordRouteImport.update({
+  id: '/set-password',
+  path: '/set-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResultsRoute = ResultsRouteImport.update({
@@ -90,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/courses': typeof CoursesRoute
   '/gallery': typeof GalleryRoute
   '/results': typeof ResultsRoute
+  '/set-password': typeof SetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/contact': typeof ApiPublicContactRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/courses': typeof CoursesRoute
   '/gallery': typeof GalleryRoute
   '/results': typeof ResultsRoute
+  '/set-password': typeof SetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/contact': typeof ApiPublicContactRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/courses': typeof CoursesRoute
   '/gallery': typeof GalleryRoute
   '/results': typeof ResultsRoute
+  '/set-password': typeof SetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/api/public/contact': typeof ApiPublicContactRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/courses'
     | '/gallery'
     | '/results'
+    | '/set-password'
     | '/sitemap.xml'
     | '/admin'
     | '/api/public/contact'
@@ -146,6 +156,7 @@ export interface FileRouteTypes {
     | '/courses'
     | '/gallery'
     | '/results'
+    | '/set-password'
     | '/sitemap.xml'
     | '/admin'
     | '/api/public/contact'
@@ -160,6 +171,7 @@ export interface FileRouteTypes {
     | '/courses'
     | '/gallery'
     | '/results'
+    | '/set-password'
     | '/sitemap.xml'
     | '/_authenticated/admin'
     | '/api/public/contact'
@@ -175,6 +187,7 @@ export interface RootRouteChildren {
   CoursesRoute: typeof CoursesRoute
   GalleryRoute: typeof GalleryRoute
   ResultsRoute: typeof ResultsRoute
+  SetPasswordRoute: typeof SetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/set-password': {
+      id: '/set-password'
+      path: '/set-password'
+      fullPath: '/set-password'
+      preLoaderRoute: typeof SetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/results': {
@@ -289,6 +309,7 @@ const rootRouteChildren: RootRouteChildren = {
   CoursesRoute: CoursesRoute,
   GalleryRoute: GalleryRoute,
   ResultsRoute: ResultsRoute,
+  SetPasswordRoute: SetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
