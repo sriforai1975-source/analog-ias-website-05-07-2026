@@ -9,6 +9,19 @@ export type ResultRow = Database["public"]["Tables"]["results"]["Row"];
 export type Json = Database["public"]["Tables"]["page_content"]["Row"]["data"];
 export type PageData = Record<string, Json>;
 
+export type SampleVideo = { title: string; url: string };
+
+export function parseSampleVideos(value: unknown): SampleVideo[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((v): v is Record<string, unknown> => !!v && typeof v === "object")
+    .map((v) => ({
+      title: typeof v.title === "string" ? v.title : "",
+      url: typeof v.url === "string" ? v.url : "",
+    }))
+    .filter((v) => v.url);
+}
+
 function publicClient() {
   return createClient<Database>(
     process.env.SUPABASE_URL!,
