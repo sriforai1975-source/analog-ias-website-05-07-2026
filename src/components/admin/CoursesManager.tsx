@@ -276,12 +276,26 @@ function CourseForm({
         />
       </div>
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-foreground">Description</label>
+        <label className="mb-1.5 block text-sm font-medium text-foreground">
+          Short description <span className="text-muted-foreground">(shown on the course card)</span>
+        </label>
         <textarea
           rows={3}
           className={inputCls}
           value={draft.description}
           onChange={(e) => setDraft({ ...draft, description: e.target.value })}
+        />
+      </div>
+      <div>
+        <label className="mb-1.5 block text-sm font-medium text-foreground">
+          Full course details <span className="text-muted-foreground">(shown on the course page)</span>
+        </label>
+        <textarea
+          rows={6}
+          className={inputCls}
+          placeholder="Syllabus coverage, duration, what's included, schedule, faculty…"
+          value={draft.long_description}
+          onChange={(e) => setDraft({ ...draft, long_description: e.target.value })}
         />
       </div>
       <div>
