@@ -315,6 +315,92 @@ function CourseForm({
         </select>
       </div>
       <MediaInput value={draft.image_url} onChange={(v) => setDraft({ ...draft, image_url: v })} />
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-foreground">
+            Price <span className="text-muted-foreground">(optional, e.g. ₹25,000)</span>
+          </label>
+          <input
+            className={inputCls}
+            value={draft.price}
+            onChange={(e) => setDraft({ ...draft, price: e.target.value })}
+          />
+        </div>
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-foreground">
+            Purchase / LMS link
+          </label>
+          <input
+            className={inputCls}
+            placeholder="https://lms.example.com/course/…"
+            value={draft.lms_url}
+            onChange={(e) => setDraft({ ...draft, lms_url: e.target.value })}
+          />
+          <p className="mt-1 text-xs text-muted-foreground">
+            Where the "Enroll / Buy Now" button sends visitors. Opens in a new tab.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <div className="mb-1.5 flex items-center justify-between">
+          <label className="block text-sm font-medium text-foreground">Sample videos</label>
+          <button
+            type="button"
+            onClick={() =>
+              setDraft({ ...draft, sample_videos: [...draft.sample_videos, { title: "", url: "" }] })
+            }
+            className="inline-flex items-center gap-1 rounded-lg border border-input bg-background px-2.5 py-1 text-xs font-medium hover:bg-accent"
+          >
+            <Plus className="h-3.5 w-3.5" /> Add video
+          </button>
+        </div>
+        {draft.sample_videos.length === 0 && (
+          <p className="text-xs text-muted-foreground">
+            Add YouTube or video links to preview the course. Leave empty for none.
+          </p>
+        )}
+        <div className="space-y-2">
+          {draft.sample_videos.map((v, idx) => (
+            <div key={idx} className="flex flex-wrap items-center gap-2">
+              <input
+                className={`${inputCls} min-w-[8rem] flex-1`}
+                placeholder="Title"
+                value={v.title}
+                onChange={(e) => {
+                  const next = [...draft.sample_videos];
+                  next[idx] = { ...next[idx], title: e.target.value };
+                  setDraft({ ...draft, sample_videos: next });
+                }}
+              />
+              <input
+                className={`${inputCls} min-w-[12rem] flex-[2]`}
+                placeholder="https://youtube.com/watch?v=…"
+                value={v.url}
+                onChange={(e) => {
+                  const next = [...draft.sample_videos];
+                  next[idx] = { ...next[idx], url: e.target.value };
+                  setDraft({ ...draft, sample_videos: next });
+                }}
+              />
+              <button
+                type="button"
+                onClick={() =>
+                  setDraft({
+                    ...draft,
+                    sample_videos: draft.sample_videos.filter((_, i) => i !== idx),
+                  })
+                }
+                className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-destructive/30 text-destructive hover:bg-destructive/10"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <button
         type="button"
         onClick={() => setDraft({ ...draft, is_published: !draft.is_published })}
