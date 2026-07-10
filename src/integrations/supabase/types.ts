@@ -55,6 +55,10 @@ export type Database = {
           id: string
           image_url: string | null
           is_published: boolean
+          lms_url: string | null
+          long_description: string
+          price: string | null
+          sample_videos: Json
           sort_order: number
           title: string
           updated_at: string
@@ -66,6 +70,10 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_published?: boolean
+          lms_url?: string | null
+          long_description?: string
+          price?: string | null
+          sample_videos?: Json
           sort_order?: number
           title: string
           updated_at?: string
@@ -77,6 +85,10 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_published?: boolean
+          lms_url?: string | null
+          long_description?: string
+          price?: string | null
+          sample_videos?: Json
           sort_order?: number
           title?: string
           updated_at?: string

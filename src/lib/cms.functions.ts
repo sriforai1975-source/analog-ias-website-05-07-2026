@@ -61,11 +61,20 @@ export const listAllCourses = createServerFn({ method: "GET" })
     return (data ?? []) as CourseRow[];
   });
 
+const sampleVideoInput = z.object({
+  title: z.string().trim().max(200).default(""),
+  url: z.string().trim().url("Enter a valid video URL").max(1000),
+});
+
 const courseInput = z.object({
   title: z.string().trim().min(1, "Title is required").max(150),
   description: z.string().trim().max(2000).default(""),
+  long_description: z.string().trim().max(20000).default(""),
   image_url: z.string().trim().max(500).nullable().optional(),
   icon: z.string().trim().max(60).nullable().optional(),
+  sample_videos: z.array(sampleVideoInput).max(30).default([]),
+  lms_url: z.string().trim().url("Enter a valid link").max(1000).nullable().optional().or(z.literal("")),
+  price: z.string().trim().max(60).nullable().optional(),
   is_published: z.boolean().default(true),
 });
 
@@ -84,8 +93,12 @@ export const createCourse = createServerFn({ method: "POST" })
     const { error } = await context.supabase.from("courses").insert({
       title: data.title,
       description: data.description,
+      long_description: data.long_description,
       image_url: data.image_url || null,
       icon: data.icon || null,
+      sample_videos: data.sample_videos as never,
+      lms_url: data.lms_url || null,
+      price: data.price || null,
       is_published: data.is_published,
       sort_order: nextOrder,
     });
@@ -103,8 +116,12 @@ export const updateCourse = createServerFn({ method: "POST" })
       .update({
         title: data.title,
         description: data.description,
+        long_description: data.long_description,
         image_url: data.image_url || null,
         icon: data.icon || null,
+        sample_videos: data.sample_videos as never,
+        lms_url: data.lms_url || null,
+        price: data.price || null,
         is_published: data.is_published,
       })
       .eq("id", data.id);

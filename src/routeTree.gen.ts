@@ -20,6 +20,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CoursesIdRouteImport } from './routes/courses.$id'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
@@ -78,6 +79,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoursesIdRoute = CoursesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => CoursesRoute,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -99,13 +105,14 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/courses': typeof CoursesRoute
+  '/courses': typeof CoursesRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/results': typeof ResultsRoute
   '/set-password': typeof SetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/courses/$id': typeof CoursesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
@@ -114,13 +121,14 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/courses': typeof CoursesRoute
+  '/courses': typeof CoursesRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/results': typeof ResultsRoute
   '/set-password': typeof SetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/courses/$id': typeof CoursesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
@@ -131,13 +139,14 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/courses': typeof CoursesRoute
+  '/courses': typeof CoursesRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/results': typeof ResultsRoute
   '/set-password': typeof SetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/courses/$id': typeof CoursesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
@@ -155,6 +164,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/admin'
+    | '/courses/$id'
     | '/api/public/contact'
     | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
@@ -170,6 +180,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/admin'
+    | '/courses/$id'
     | '/api/public/contact'
     | '/api/public/media/$'
   id:
@@ -186,6 +197,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/_authenticated/admin'
+    | '/courses/$id'
     | '/api/public/contact'
     | '/api/public/media/$'
   fileRoutesById: FileRoutesById
@@ -196,7 +208,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
-  CoursesRoute: typeof CoursesRoute
+  CoursesRoute: typeof CoursesRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   ResultsRoute: typeof ResultsRoute
   SetPasswordRoute: typeof SetPasswordRoute
@@ -285,6 +297,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/courses/$id': {
+      id: '/courses/$id'
+      path: '/$id'
+      fullPath: '/courses/$id'
+      preLoaderRoute: typeof CoursesIdRouteImport
+      parentRoute: typeof CoursesRoute
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -320,13 +339,24 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface CoursesRouteChildren {
+  CoursesIdRoute: typeof CoursesIdRoute
+}
+
+const CoursesRouteChildren: CoursesRouteChildren = {
+  CoursesIdRoute: CoursesIdRoute,
+}
+
+const CoursesRouteWithChildren =
+  CoursesRoute._addFileChildren(CoursesRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
-  CoursesRoute: CoursesRoute,
+  CoursesRoute: CoursesRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   ResultsRoute: ResultsRoute,
   SetPasswordRoute: SetPasswordRoute,
