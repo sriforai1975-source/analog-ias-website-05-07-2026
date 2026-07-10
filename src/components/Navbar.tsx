@@ -18,20 +18,14 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <Link to="/" className="flex min-w-0 items-center gap-2.5" onClick={() => setOpen(false)}>
+        <Link to="/" className="flex min-w-0 items-center" onClick={() => setOpen(false)}>
           <img
             src={logo}
             alt="ANALOG IAS ACADEMY logo"
-            width={40}
-            height={40}
-            className="h-10 w-10 shrink-0 rounded-lg object-contain"
+            width={2250}
+            height={740}
+            className="h-9 w-auto shrink-0 object-contain sm:h-10"
           />
-          <span className="flex min-w-0 flex-col leading-tight">
-            <span className="truncate text-base font-extrabold text-primary">ANALOG IAS</span>
-            <span className="truncate text-[0.65rem] font-semibold tracking-[0.2em] text-gold">
-              ACADEMY
-            </span>
-          </span>
         </Link>
 
         <ul className="hidden items-center gap-1 md:flex">
