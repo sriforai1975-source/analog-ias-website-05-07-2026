@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, GraduationCap } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import logo from "../assets/analog-logo.png";
 
 const links = [
   { to: "/", label: "Home" },
