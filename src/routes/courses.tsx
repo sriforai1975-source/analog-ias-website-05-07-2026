@@ -97,7 +97,8 @@ function Courses() {
                   <h3 className="text-xl font-bold text-foreground">{course.title}</h3>
                   <p className="mt-2 flex-1 text-sm text-muted-foreground">{course.description}</p>
                   <Link
-                    to="/contact"
+                    to="/courses/$id"
+                    params={{ id: course.id }}
                     className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-gold"
                   >
                     Know More <ArrowRight className="h-4 w-4" />
