@@ -32,9 +32,14 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <Link to="/" className="flex items-center gap-2.5">
-            <span className="grid h-10 w-10 place-items-center rounded-lg bg-secondary text-secondary-foreground">
-              <GraduationCap className="h-5 w-5" />
-            </span>
+            <img
+              src={logo}
+              alt="ANALOG IAS ACADEMY logo"
+              width={40}
+              height={40}
+              loading="lazy"
+              className="h-10 w-10 rounded-lg object-contain"
+            />
             <span className="flex flex-col leading-tight">
               <span className="text-base font-extrabold">ANALOG IAS</span>
               <span className="text-[0.65rem] font-semibold tracking-[0.2em] text-gold">
