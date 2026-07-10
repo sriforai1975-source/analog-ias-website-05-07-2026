@@ -1,12 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { GraduationCap, Facebook, Instagram, Twitter, Youtube, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Youtube, Linkedin, Send } from "lucide-react";
+import logo from "../assets/analog-logo.png";
 
 const socials = [
-  { icon: Facebook, label: "Facebook" },
-  { icon: Instagram, label: "Instagram" },
-  { icon: Twitter, label: "Twitter" },
-  { icon: Youtube, label: "YouTube" },
-  { icon: Linkedin, label: "LinkedIn" },
+  { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/AnalogIASAcademy" },
+  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/analogiasacademy/" },
+  { icon: Youtube, label: "YouTube", href: "https://www.youtube.com/c/AnalogIASAcademy" },
+  { icon: Send, label: "Telegram", href: "https://t.me/analogiasacademy" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/analogias-academy" },
 ];
 
 const quickLinks = [
@@ -31,9 +32,14 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <Link to="/" className="flex items-center gap-2.5">
-            <span className="grid h-10 w-10 place-items-center rounded-lg bg-secondary text-secondary-foreground">
-              <GraduationCap className="h-5 w-5" />
-            </span>
+            <img
+              src={logo}
+              alt="ANALOG IAS ACADEMY logo"
+              width={40}
+              height={40}
+              loading="lazy"
+              className="h-10 w-10 rounded-lg object-contain"
+            />
             <span className="flex flex-col leading-tight">
               <span className="text-base font-extrabold">ANALOG IAS</span>
               <span className="text-[0.65rem] font-semibold tracking-[0.2em] text-gold">
@@ -85,7 +91,9 @@ export function Footer() {
             {socials.map((s) => (
               <a
                 key={s.label}
-                href="#"
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={s.label}
                 className="grid h-10 w-10 place-items-center rounded-lg bg-primary-foreground/10 text-primary-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground"
               >
@@ -95,14 +103,20 @@ export function Footer() {
           </div>
           <ul className="mt-6 space-y-2.5">
             <li>
-              <a href="#" className="text-sm text-primary-foreground/75 transition-colors hover:text-gold">
+              <Link
+                to="/privacy"
+                className="text-sm text-primary-foreground/75 transition-colors hover:text-gold"
+              >
                 Privacy Policy
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="text-sm text-primary-foreground/75 transition-colors hover:text-gold">
+              <Link
+                to="/terms"
+                className="text-sm text-primary-foreground/75 transition-colors hover:text-gold"
+              >
                 Terms &amp; Conditions
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
