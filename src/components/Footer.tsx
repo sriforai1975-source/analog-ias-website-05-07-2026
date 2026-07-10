@@ -31,21 +31,15 @@ export function Footer() {
     <footer className="bg-primary text-primary-foreground">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Link to="/" className="flex items-center gap-2.5">
+          <Link to="/" className="inline-flex items-center rounded-lg bg-white px-3 py-2">
             <img
               src={logo}
               alt="ANALOG IAS ACADEMY logo"
-              width={40}
-              height={40}
+              width={2250}
+              height={740}
               loading="lazy"
-              className="h-10 w-10 rounded-lg object-contain"
+              className="h-9 w-auto object-contain"
             />
-            <span className="flex flex-col leading-tight">
-              <span className="text-base font-extrabold">ANALOG IAS</span>
-              <span className="text-[0.65rem] font-semibold tracking-[0.2em] text-gold">
-                ACADEMY
-              </span>
-            </span>
           </Link>
           <p className="mt-4 text-sm text-primary-foreground/70">
             Building India's future civil servants through expert faculty, structured mentoring and a
