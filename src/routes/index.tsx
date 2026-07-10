@@ -155,7 +155,12 @@ function Index() {
               const Icon = getIcon(course.icon);
               const img = mediaUrl(course.image_url);
               return (
-                <div key={course.id} className="hover-lift rounded-2xl border border-border bg-card p-6 shadow-soft">
+                <Link
+                  key={course.id}
+                  to="/courses/$id"
+                  params={{ id: course.id }}
+                  className="hover-lift block rounded-2xl border border-border bg-card p-6 shadow-soft"
+                >
                   <span className="grid h-12 w-12 place-items-center overflow-hidden rounded-xl bg-primary text-primary-foreground">
                     {img ? (
                       <img src={img} alt={course.title} className="h-full w-full object-cover" />
@@ -165,7 +170,7 @@ function Index() {
                   </span>
                   <h3 className="mt-4 text-lg font-bold text-foreground">{course.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{course.description}</p>
-                </div>
+                </Link>
               );
             })}
           </div>
