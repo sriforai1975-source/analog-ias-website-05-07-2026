@@ -93,8 +93,12 @@ export const createCourse = createServerFn({ method: "POST" })
     const { error } = await context.supabase.from("courses").insert({
       title: data.title,
       description: data.description,
+      long_description: data.long_description,
       image_url: data.image_url || null,
       icon: data.icon || null,
+      sample_videos: data.sample_videos as never,
+      lms_url: data.lms_url || null,
+      price: data.price || null,
       is_published: data.is_published,
       sort_order: nextOrder,
     });
