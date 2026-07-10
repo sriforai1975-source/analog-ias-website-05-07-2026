@@ -132,7 +132,7 @@ function CourseDetail() {
 
       {course.long_description?.trim() && (
         <section className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
-          <SectionHeading eyebrow="Course Details" title="What This Programme Covers" align="left" />
+          <SectionHeading eyebrow="Course Details" title="What This Programme Covers" />
           <div className="mt-8 whitespace-pre-line text-muted-foreground leading-relaxed">
             {course.long_description}
           </div>
