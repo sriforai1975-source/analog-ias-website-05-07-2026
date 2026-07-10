@@ -418,7 +418,15 @@ function CourseForm({
 
       <div className="flex items-center gap-2">
         <button
-          onClick={() => onSave(draft)}
+          onClick={() =>
+            onSave({
+              ...draft,
+              lms_url: draft.lms_url.trim(),
+              sample_videos: draft.sample_videos
+                .map((v) => ({ title: v.title.trim(), url: v.url.trim() }))
+                .filter((v) => v.url),
+            })
+          }
           disabled={saving || !draft.title.trim()}
           className="inline-flex items-center gap-2 rounded-lg bg-secondary px-4 py-2 text-sm font-semibold text-secondary-foreground shadow-gold disabled:opacity-60"
         >
