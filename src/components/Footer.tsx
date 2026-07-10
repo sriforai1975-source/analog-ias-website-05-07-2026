@@ -91,7 +91,9 @@ export function Footer() {
             {socials.map((s) => (
               <a
                 key={s.label}
-                href="#"
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={s.label}
                 className="grid h-10 w-10 place-items-center rounded-lg bg-primary-foreground/10 text-primary-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground"
               >
@@ -101,14 +103,20 @@ export function Footer() {
           </div>
           <ul className="mt-6 space-y-2.5">
             <li>
-              <a href="#" className="text-sm text-primary-foreground/75 transition-colors hover:text-gold">
+              <Link
+                to="/privacy"
+                className="text-sm text-primary-foreground/75 transition-colors hover:text-gold"
+              >
                 Privacy Policy
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="text-sm text-primary-foreground/75 transition-colors hover:text-gold">
+              <Link
+                to="/terms"
+                className="text-sm text-primary-foreground/75 transition-colors hover:text-gold"
+              >
                 Terms &amp; Conditions
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
