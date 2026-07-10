@@ -144,8 +144,12 @@ export function CoursesManager() {
                 initial={{
                   title: c.title,
                   description: c.description,
+                  long_description: c.long_description ?? "",
                   image_url: c.image_url,
                   icon: c.icon,
+                  sample_videos: parseSampleVideos(c.sample_videos),
+                  lms_url: c.lms_url ?? "",
+                  price: c.price ?? "",
                   is_published: c.is_published,
                 }}
                 saving={updateMut.isPending}
