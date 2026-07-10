@@ -67,3 +67,16 @@ export const getPublicResults = createServerFn({ method: "GET" }).handler(
     return (data ?? []) as ResultRow[];
   },
 );
+
+export const getPublicCourse = createServerFn({ method: "GET" })
+  .inputValidator((d: { id: string }) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data }): Promise<CourseRow | null> => {
+    const sb = publicClient();
+    const { data: row } = await sb
+      .from("courses")
+      .select("*")
+      .eq("id", data.id)
+      .eq("is_published", true)
+      .maybeSingle();
+    return (row as CourseRow) ?? null;
+  });
