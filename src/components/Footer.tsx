@@ -1,12 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { GraduationCap, Facebook, Instagram, Twitter, Youtube, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Youtube, Linkedin, Send } from "lucide-react";
+import logo from "../assets/analog-logo.png";
 
 const socials = [
-  { icon: Facebook, label: "Facebook" },
-  { icon: Instagram, label: "Instagram" },
-  { icon: Twitter, label: "Twitter" },
-  { icon: Youtube, label: "YouTube" },
-  { icon: Linkedin, label: "LinkedIn" },
+  { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/AnalogIASAcademy" },
+  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/analogiasacademy/" },
+  { icon: Youtube, label: "YouTube", href: "https://www.youtube.com/c/AnalogIASAcademy" },
+  { icon: Send, label: "Telegram", href: "https://t.me/analogiasacademy" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/analogias-academy" },
 ];
 
 const quickLinks = [
