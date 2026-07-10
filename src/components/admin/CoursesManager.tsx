@@ -21,7 +21,8 @@ import {
   deleteCourse,
   reorderCourses,
 } from "@/lib/cms.functions";
-import type { CourseRow } from "@/lib/content.functions";
+import type { CourseRow, SampleVideo } from "@/lib/content.functions";
+import { parseSampleVideos } from "@/lib/content.functions";
 import { getIcon, iconNames } from "@/lib/icon-map";
 import { mediaUrl } from "@/lib/media";
 import { MediaInput } from "./MediaInput";
@@ -32,16 +33,24 @@ const inputCls =
 type Draft = {
   title: string;
   description: string;
+  long_description: string;
   image_url: string | null;
   icon: string | null;
+  sample_videos: SampleVideo[];
+  lms_url: string;
+  price: string;
   is_published: boolean;
 };
 
 const emptyDraft: Draft = {
   title: "",
   description: "",
+  long_description: "",
   image_url: null,
   icon: "BookOpen",
+  sample_videos: [],
+  lms_url: "",
+  price: "",
   is_published: true,
 };
 
