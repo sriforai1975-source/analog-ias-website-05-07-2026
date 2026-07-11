@@ -3,6 +3,7 @@ import { Award, Users, GraduationCap, HeartHandshake, CheckCircle2, ArrowRight }
 import aboutImg from "../assets/about.jpg";
 import { SectionHeading } from "../components/SectionHeading";
 import { getPageContent, type PageData } from "../lib/content.functions";
+import { mediaUrl } from "../lib/media";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
