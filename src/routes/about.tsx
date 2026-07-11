@@ -3,6 +3,7 @@ import { Award, Users, GraduationCap, HeartHandshake, CheckCircle2, ArrowRight }
 import aboutImg from "../assets/about.jpg";
 import { SectionHeading } from "../components/SectionHeading";
 import { getPageContent, type PageData } from "../lib/content.functions";
+import { mediaUrl } from "../lib/media";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -46,6 +47,12 @@ const defaultValues = [
   "Motivational and disciplined environment",
 ];
 
+const defaultFounderBio = [
+  "An entrepreneur by profession but a teacher and coach at heart, Srikanth Vinnakota founded ANALOG IAS ACADEMY in 2002 to bring India's finest Civil Services teaching to aspirants' doorsteps in Hyderabad.",
+  "What began with just 9 students has grown into one of the country's most trusted UPSC institutions, with 700+ successful selections and a reputation for producing top-ranking officers nationwide.",
+  "An author, motivator and philanthropist, he blends rigorous academics with strategic mentorship to shape the leaders of tomorrow.",
+];
+
 function str(c: PageData, key: string, fallback: string): string {
   const v = c[key];
   return typeof v === "string" && v ? v : fallback;
@@ -56,6 +63,21 @@ function About() {
   const c = content as PageData;
   const values =
     Array.isArray(c.values) && c.values.length > 0 ? (c.values as string[]) : defaultValues;
+  const founderName = str(c, "founder_name", "Srikanth Vinnakota");
+  const founderTitle = str(c, "founder_title", "Founder & Managing Director");
+  const founderBio =
+    Array.isArray(c.founder_bio) && c.founder_bio.length > 0
+      ? (c.founder_bio as string[])
+      : defaultFounderBio;
+  const founderImg = mediaUrl(typeof c.founder_image === "string" ? c.founder_image : null);
+  const founderInitials = founderName
+    .split(" ")
+    .map((w) => w[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
 
   return (
     <>
@@ -116,6 +138,47 @@ function About() {
           </ul>
         </div>
       </section>
+
+      <section className="border-y border-border bg-muted/40">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
+          <SectionHeading eyebrow="Leadership" title="Meet Our Founder" />
+          <div className="mt-12 grid items-center gap-10 lg:grid-cols-[320px_1fr]">
+            <div className="mx-auto w-full max-w-xs">
+              <div className="relative overflow-hidden rounded-2xl border border-border bg-primary shadow-card">
+                {founderImg ? (
+                  <img
+                    src={founderImg}
+                    alt={founderName}
+                    width={640}
+                    height={800}
+                    loading="lazy"
+                    className="aspect-[4/5] w-full object-cover"
+                  />
+                ) : (
+                  <div className="grid aspect-[4/5] w-full place-items-center bg-gradient-to-br from-primary to-primary/70">
+                    <span className="text-6xl font-extrabold tracking-wide text-gold">
+                      {founderInitials}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div>
+              <h3 className="text-2xl font-extrabold text-foreground sm:text-3xl">{founderName}</h3>
+              <p className="mt-1 text-sm font-semibold uppercase tracking-wider text-gold">
+                {founderTitle}
+              </p>
+              <div className="mt-5 space-y-4 text-muted-foreground">
+                {founderBio.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
 
       <section className="bg-muted/50">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">

@@ -95,7 +95,7 @@ function Index() {
           <div className="relative animate-fade-up">
             <div className="absolute -right-6 -top-6 hidden h-24 w-24 rounded-2xl bg-secondary/30 animate-float lg:block" />
             <img
-              src={heroImg}
+              src={mediaUrl(typeof c.hero_image === "string" ? c.hero_image : null) ?? heroImg}
               alt="ANALOG IAS Academy students preparing for civil services"
               width={1600}
               height={1100}

@@ -5,8 +5,9 @@ import { Loader2, Plus, Save, Trash2, CheckCircle2 } from "lucide-react";
 
 import { getPageContent } from "@/lib/content.functions";
 import { upsertPageContent } from "@/lib/cms.functions";
+import { MediaInput } from "@/components/admin/MediaInput";
 
-type FieldType = "text" | "textarea" | "stringList" | "statList";
+type FieldType = "text" | "textarea" | "stringList" | "statList" | "media";
 type FieldDef = { name: string; label: string; type: FieldType };
 type PageDef = { key: string; label: string; fields: FieldDef[] };
 
@@ -18,6 +19,7 @@ const PAGES: PageDef[] = [
       { name: "hero_eyebrow", label: "Hero eyebrow", type: "text" },
       { name: "hero_title", label: "Hero headline", type: "text" },
       { name: "hero_subtitle", label: "Hero subheading", type: "textarea" },
+      { name: "hero_image", label: "Hero banner image", type: "media" },
       { name: "stats", label: "Statistics", type: "statList" },
       { name: "why_title", label: "\"Why choose us\" title", type: "text" },
       { name: "why_subtitle", label: "\"Why choose us\" subtitle", type: "textarea" },
@@ -35,6 +37,10 @@ const PAGES: PageDef[] = [
       { name: "story_p1", label: "Story paragraph 1", type: "textarea" },
       { name: "story_p2", label: "Story paragraph 2", type: "textarea" },
       { name: "values", label: "Value points", type: "stringList" },
+      { name: "founder_name", label: "Founder name", type: "text" },
+      { name: "founder_title", label: "Founder title/designation", type: "text" },
+      { name: "founder_bio", label: "Founder bio paragraphs", type: "stringList" },
+      { name: "founder_image", label: "Founder photo", type: "media" },
     ],
   },
   {
@@ -62,6 +68,24 @@ const PAGES: PageDef[] = [
       { name: "email", label: "Email addresses", type: "stringList" },
       { name: "hours", label: "Office hours", type: "stringList" },
       { name: "map_embed_url", label: "Google Maps embed URL", type: "text" },
+    ],
+  },
+  {
+    key: "footer",
+    label: "Footer",
+    fields: [
+      { name: "tagline", label: "About / tagline text", type: "textarea" },
+      { name: "contact_address", label: "Footer address", type: "text" },
+      { name: "contact_phone", label: "Footer phone", type: "text" },
+      { name: "contact_email", label: "Footer email", type: "text" },
+      { name: "social_facebook", label: "Facebook URL", type: "text" },
+      { name: "social_instagram", label: "Instagram URL", type: "text" },
+      { name: "social_youtube", label: "YouTube URL", type: "text" },
+      { name: "social_telegram", label: "Telegram URL", type: "text" },
+      { name: "social_linkedin", label: "LinkedIn URL", type: "text" },
+      { name: "privacy_label", label: "Privacy Policy link label", type: "text" },
+      { name: "terms_label", label: "Terms & Conditions link label", type: "text" },
+      { name: "copyright", label: "Copyright text", type: "text" },
     ],
   },
 ];
@@ -169,6 +193,13 @@ function PageForm({ def }: { def: PageDef }) {
             <StatListEditor
               items={(values[f.name] as { value: string; label: string }[]) ?? []}
               onChange={(items) => set(f.name, items)}
+            />
+          )}
+          {f.type === "media" && (
+            <MediaInput
+              label=""
+              value={(values[f.name] as string) ?? null}
+              onChange={(v) => set(f.name, v)}
             />
           )}
         </div>
