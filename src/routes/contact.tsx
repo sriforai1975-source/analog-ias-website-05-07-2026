@@ -41,6 +41,7 @@ function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [renderedAt] = useState(() => Date.now());
 
   const details = [
     { icon: MapPin, title: "Address", lines: list(c, "address", ["ANALOG IAS ACADEMY", "1-2-3 Ashok Nagar, Main Road", "Hyderabad, Telangana 500020"]) },
