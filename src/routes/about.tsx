@@ -139,6 +139,47 @@ function About() {
         </div>
       </section>
 
+      <section className="border-y border-border bg-muted/40">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
+          <SectionHeading eyebrow="Leadership" title="Meet Our Founder" />
+          <div className="mt-12 grid items-center gap-10 lg:grid-cols-[320px_1fr]">
+            <div className="mx-auto w-full max-w-xs">
+              <div className="relative overflow-hidden rounded-2xl border border-border bg-primary shadow-card">
+                {founderImg ? (
+                  <img
+                    src={founderImg}
+                    alt={founderName}
+                    width={640}
+                    height={800}
+                    loading="lazy"
+                    className="aspect-[4/5] w-full object-cover"
+                  />
+                ) : (
+                  <div className="grid aspect-[4/5] w-full place-items-center bg-gradient-to-br from-primary to-primary/70">
+                    <span className="text-6xl font-extrabold tracking-wide text-gold">
+                      {founderInitials}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div>
+              <h3 className="text-2xl font-extrabold text-foreground sm:text-3xl">{founderName}</h3>
+              <p className="mt-1 text-sm font-semibold uppercase tracking-wider text-gold">
+                {founderTitle}
+              </p>
+              <div className="mt-5 space-y-4 text-muted-foreground">
+                {founderBio.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
       <section className="bg-muted/50">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
           <SectionHeading eyebrow="What Sets Us Apart" title="The ANALOG Advantage" />
