@@ -62,6 +62,8 @@ function Contact() {
       phone: String(fd.get("phone") ?? ""),
       subject: String(fd.get("subject") ?? ""),
       message: String(fd.get("message") ?? ""),
+      company: String(fd.get("company") ?? ""),
+      renderedAt,
     };
 
     setLoading(true);
