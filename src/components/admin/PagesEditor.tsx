@@ -5,8 +5,9 @@ import { Loader2, Plus, Save, Trash2, CheckCircle2 } from "lucide-react";
 
 import { getPageContent } from "@/lib/content.functions";
 import { upsertPageContent } from "@/lib/cms.functions";
+import { MediaInput } from "@/components/admin/MediaInput";
 
-type FieldType = "text" | "textarea" | "stringList" | "statList";
+type FieldType = "text" | "textarea" | "stringList" | "statList" | "media";
 type FieldDef = { name: string; label: string; type: FieldType };
 type PageDef = { key: string; label: string; fields: FieldDef[] };
 
