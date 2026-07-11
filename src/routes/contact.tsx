@@ -41,6 +41,7 @@ function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [renderedAt] = useState(() => Date.now());
 
   const details = [
     { icon: MapPin, title: "Address", lines: list(c, "address", ["ANALOG IAS ACADEMY", "1-2-3 Ashok Nagar, Main Road", "Hyderabad, Telangana 500020"]) },
@@ -61,6 +62,8 @@ function Contact() {
       phone: String(fd.get("phone") ?? ""),
       subject: String(fd.get("subject") ?? ""),
       message: String(fd.get("message") ?? ""),
+      company: String(fd.get("company") ?? ""),
+      renderedAt,
     };
 
     setLoading(true);
@@ -181,6 +184,17 @@ function Contact() {
                   required
                   placeholder="Write your message..."
                   className="w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/30"
+                />
+              </div>
+              {/* Honeypot: hidden from real users, bots tend to fill it. */}
+              <div aria-hidden="true" className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden">
+                <label htmlFor="company">Company</label>
+                <input
+                  id="company"
+                  name="company"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
                 />
               </div>
               <button

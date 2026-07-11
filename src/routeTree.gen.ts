@@ -14,12 +14,12 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SetPasswordRouteImport } from './routes/set-password'
 import { Route as ResultsRouteImport } from './routes/results'
 import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesIdRouteImport } from './routes/courses.$id'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
@@ -50,11 +50,6 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CoursesRoute = CoursesRouteImport.update({
-  id: '/courses',
-  path: '/courses',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -79,10 +74,15 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoursesIndexRoute = CoursesIndexRouteImport.update({
+  id: '/courses/',
+  path: '/courses/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoursesIdRoute = CoursesIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => CoursesRoute,
+  id: '/courses/$id',
+  path: '/courses/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
@@ -105,7 +105,6 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/courses': typeof CoursesRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/results': typeof ResultsRoute
   '/set-password': typeof SetPasswordRoute
@@ -113,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/courses/$id': typeof CoursesIdRoute
+  '/courses/': typeof CoursesIndexRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
@@ -121,7 +121,6 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/courses': typeof CoursesRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/results': typeof ResultsRoute
   '/set-password': typeof SetPasswordRoute
@@ -129,6 +128,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/courses/$id': typeof CoursesIdRoute
+  '/courses': typeof CoursesIndexRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
@@ -139,7 +139,6 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/courses': typeof CoursesRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/results': typeof ResultsRoute
   '/set-password': typeof SetPasswordRoute
@@ -147,6 +146,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/courses/$id': typeof CoursesIdRoute
+  '/courses/': typeof CoursesIndexRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
@@ -157,7 +157,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
-    | '/courses'
     | '/privacy'
     | '/results'
     | '/set-password'
@@ -165,6 +164,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin'
     | '/courses/$id'
+    | '/courses/'
     | '/api/public/contact'
     | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
@@ -173,7 +173,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
-    | '/courses'
     | '/privacy'
     | '/results'
     | '/set-password'
@@ -181,6 +180,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin'
     | '/courses/$id'
+    | '/courses'
     | '/api/public/contact'
     | '/api/public/media/$'
   id:
@@ -190,7 +190,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
-    | '/courses'
     | '/privacy'
     | '/results'
     | '/set-password'
@@ -198,6 +197,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/_authenticated/admin'
     | '/courses/$id'
+    | '/courses/'
     | '/api/public/contact'
     | '/api/public/media/$'
   fileRoutesById: FileRoutesById
@@ -208,12 +208,13 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
-  CoursesRoute: typeof CoursesRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   ResultsRoute: typeof ResultsRoute
   SetPasswordRoute: typeof SetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  CoursesIdRoute: typeof CoursesIdRoute
+  CoursesIndexRoute: typeof CoursesIndexRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
@@ -255,13 +256,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/courses': {
-      id: '/courses'
-      path: '/courses'
-      fullPath: '/courses'
-      preLoaderRoute: typeof CoursesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -297,12 +291,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/courses/': {
+      id: '/courses/'
+      path: '/courses'
+      fullPath: '/courses/'
+      preLoaderRoute: typeof CoursesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/courses/$id': {
       id: '/courses/$id'
-      path: '/$id'
+      path: '/courses/$id'
       fullPath: '/courses/$id'
       preLoaderRoute: typeof CoursesIdRouteImport
-      parentRoute: typeof CoursesRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
@@ -339,29 +340,19 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
-interface CoursesRouteChildren {
-  CoursesIdRoute: typeof CoursesIdRoute
-}
-
-const CoursesRouteChildren: CoursesRouteChildren = {
-  CoursesIdRoute: CoursesIdRoute,
-}
-
-const CoursesRouteWithChildren =
-  CoursesRoute._addFileChildren(CoursesRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
-  CoursesRoute: CoursesRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   ResultsRoute: ResultsRoute,
   SetPasswordRoute: SetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  CoursesIdRoute: CoursesIdRoute,
+  CoursesIndexRoute: CoursesIndexRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }

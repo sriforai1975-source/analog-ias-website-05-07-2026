@@ -7,7 +7,35 @@ const submissionSchema = z.object({
   phone: z.string().trim().max(30).optional().or(z.literal("")),
   subject: z.string().trim().max(150).optional().or(z.literal("")),
   message: z.string().trim().min(1, "Message is required").max(2000),
+  // Honeypot: real users never fill this hidden field.
+  company: z.string().max(0).optional().or(z.literal("")),
+  // Client timestamp (ms) of when the form was rendered.
+  renderedAt: z.number().optional(),
 });
+
+// Reject submissions that look like spam. Returns a reason or null.
+function spamReason(data: {
+  message: string;
+  name: string;
+  renderedAt?: number;
+}): string | null {
+  // Too many links is a strong spam signal for a contact enquiry.
+  const linkCount = (data.message.match(/https?:\/\/|www\./gi) ?? []).length;
+  if (linkCount >= 3) return "too_many_links";
+
+  // Submitted implausibly fast after the form rendered (likely a bot).
+  if (typeof data.renderedAt === "number") {
+    const elapsed = Date.now() - data.renderedAt;
+    if (elapsed >= 0 && elapsed < 2500) return "too_fast";
+  }
+
+  // Common spam keywords.
+  const haystack = `${data.name} ${data.message}`.toLowerCase();
+  const banned = ["viagra", "casino", "crypto pump", "seo services", "bitcoin", "loan offer"];
+  if (banned.some((w) => haystack.includes(w))) return "banned_keyword";
+
+  return null;
+}
 
 export const Route = createFileRoute("/api/public/contact")({
   server: {
@@ -28,7 +56,21 @@ export const Route = createFileRoute("/api/public/contact")({
           );
         }
 
-        const { name, email, phone, subject, message } = parsed.data;
+        const { name, email, phone, subject, message, company, renderedAt } = parsed.data;
+
+        // Honeypot tripped — silently accept so bots don't retry, but don't store.
+        if (company) {
+          return Response.json({ ok: true });
+        }
+
+        const reason = spamReason({ name, message, renderedAt });
+        if (reason) {
+          console.warn("Rejected spam contact submission:", reason);
+          return Response.json(
+            { error: "Your message looks like spam. Please remove links or rephrase and try again." },
+            { status: 422 },
+          );
+        }
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
