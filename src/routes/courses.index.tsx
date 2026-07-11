@@ -10,7 +10,7 @@ import {
 import { getIcon } from "../lib/icon-map";
 import { mediaUrl } from "../lib/media";
 
-export const Route = createFileRoute("/courses")({
+export const Route = createFileRoute("/courses/")({
   head: () => ({
     meta: [
       { title: "Courses — ANALOG IAS ACADEMY" },
