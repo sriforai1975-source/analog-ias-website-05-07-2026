@@ -8,9 +8,10 @@ import type { Database } from "@/integrations/supabase/types";
  *
  * Security: this endpoint is unauthenticated, so it must NOT serve arbitrary
  * objects from the bucket. It only streams an object when its path is actually
- * referenced by a *published* course or result — i.e. content that is already
- * intended to be publicly visible. Everything else returns 404, preserving the
- * staff-only storage policy for all other objects.
+ * referenced by a *published* course or result, or by editable page content
+ * (home banner, founder photo, etc.) — i.e. content already intended to be
+ * publicly visible. Everything else returns 404, preserving the staff-only
+ * storage policy for all other objects.
  */
 async function isPubliclyReferenced(path: string): Promise<boolean> {
   // Anon/publishable client — reads are constrained by RLS to published rows.
@@ -20,7 +21,7 @@ async function isPubliclyReferenced(path: string): Promise<boolean> {
     { auth: { storage: undefined, persistSession: false, autoRefreshToken: false } },
   );
 
-  const [{ data: course }, { data: result }] = await Promise.all([
+  const [{ data: course }, { data: result }, { data: pages }] = await Promise.all([
     sb
       .from("courses")
       .select("id")
@@ -35,9 +36,14 @@ async function isPubliclyReferenced(path: string): Promise<boolean> {
       .eq("image_url", path)
       .limit(1)
       .maybeSingle(),
+    sb.from("page_content").select("data"),
   ]);
 
-  return Boolean(course) || Boolean(result);
+  const referencedInPages = (pages ?? []).some((row) =>
+    JSON.stringify(row.data ?? {}).includes(path),
+  );
+
+  return Boolean(course) || Boolean(result) || referencedInPages;
 }
 
 export const Route = createFileRoute("/api/public/media/$")({
