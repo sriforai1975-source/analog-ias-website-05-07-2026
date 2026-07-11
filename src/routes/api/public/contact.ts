@@ -56,7 +56,21 @@ export const Route = createFileRoute("/api/public/contact")({
           );
         }
 
-        const { name, email, phone, subject, message } = parsed.data;
+        const { name, email, phone, subject, message, company, renderedAt } = parsed.data;
+
+        // Honeypot tripped — silently accept so bots don't retry, but don't store.
+        if (company) {
+          return Response.json({ ok: true });
+        }
+
+        const reason = spamReason({ name, message, renderedAt });
+        if (reason) {
+          console.warn("Rejected spam contact submission:", reason);
+          return Response.json(
+            { error: "Your message looks like spam. Please remove links or rephrase and try again." },
+            { status: 422 },
+          );
+        }
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
