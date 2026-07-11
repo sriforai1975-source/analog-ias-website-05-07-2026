@@ -195,6 +195,13 @@ function PageForm({ def }: { def: PageDef }) {
               onChange={(items) => set(f.name, items)}
             />
           )}
+          {f.type === "media" && (
+            <MediaInput
+              label=""
+              value={(values[f.name] as string) ?? null}
+              onChange={(v) => set(f.name, v)}
+            />
+          )}
         </div>
       ))}
 
