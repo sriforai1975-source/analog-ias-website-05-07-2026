@@ -47,6 +47,12 @@ const defaultValues = [
   "Motivational and disciplined environment",
 ];
 
+const defaultFounderBio = [
+  "An entrepreneur by profession but a teacher and coach at heart, Srikanth Vinnakota founded ANALOG IAS ACADEMY in 2002 to bring India's finest Civil Services teaching to aspirants' doorsteps in Hyderabad.",
+  "What began with just 9 students has grown into one of the country's most trusted UPSC institutions, with 700+ successful selections and a reputation for producing top-ranking officers nationwide.",
+  "An author, motivator and philanthropist, he blends rigorous academics with strategic mentorship to shape the leaders of tomorrow.",
+];
+
 function str(c: PageData, key: string, fallback: string): string {
   const v = c[key];
   return typeof v === "string" && v ? v : fallback;
@@ -57,6 +63,21 @@ function About() {
   const c = content as PageData;
   const values =
     Array.isArray(c.values) && c.values.length > 0 ? (c.values as string[]) : defaultValues;
+  const founderName = str(c, "founder_name", "Srikanth Vinnakota");
+  const founderTitle = str(c, "founder_title", "Founder & Managing Director");
+  const founderBio =
+    Array.isArray(c.founder_bio) && c.founder_bio.length > 0
+      ? (c.founder_bio as string[])
+      : defaultFounderBio;
+  const founderImg = mediaUrl(typeof c.founder_image === "string" ? c.founder_image : null);
+  const founderInitials = founderName
+    .split(" ")
+    .map((w) => w[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
 
   return (
     <>
