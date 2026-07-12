@@ -92,6 +92,11 @@ export function CoursesManager() {
     mutationFn: (ids: string[]) => reorder({ data: { ids } }),
     onSuccess: invalidate,
   });
+  const toggleMut = useMutation({
+    mutationFn: (v: { id: string; is_published: boolean }) => toggle({ data: v }),
+    onSuccess: invalidate,
+  });
+
 
   const courses = list.data ?? [];
 
