@@ -196,6 +196,7 @@ function CourseRowView({
   last,
   onUp,
   onDown,
+  onToggle,
   onEdit,
   onDelete,
 }: {
@@ -204,6 +205,7 @@ function CourseRowView({
   last: boolean;
   onUp: () => void;
   onDown: () => void;
+  onToggle: () => void;
   onEdit: () => void;
   onDelete: () => void;
 }) {
