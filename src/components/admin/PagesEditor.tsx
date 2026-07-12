@@ -19,7 +19,7 @@ const PAGES: PageDef[] = [
       { name: "hero_eyebrow", label: "Hero eyebrow", type: "text" },
       { name: "hero_title", label: "Hero headline", type: "text" },
       { name: "hero_subtitle", label: "Hero subheading", type: "textarea" },
-      { name: "hero_image", label: "Hero banner image", type: "media" },
+      { name: "hero_image", label: "Hero banner image", type: "media", hint: "Recommended size: 1920 × 1080 px (16:9), landscape. Max 5MB." },
       { name: "stats", label: "Statistics", type: "statList" },
       { name: "why_title", label: "\"Why choose us\" title", type: "text" },
       { name: "why_subtitle", label: "\"Why choose us\" subtitle", type: "textarea" },
