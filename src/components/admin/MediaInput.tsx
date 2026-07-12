@@ -9,10 +9,12 @@ export function MediaInput({
   value,
   onChange,
   label = "Image",
+  hint,
 }: {
   value: string | null;
   onChange: (value: string | null) => void;
   label?: string;
+  hint?: string;
 }) {
   const upload = useServerFn(uploadMedia);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -38,7 +40,10 @@ export function MediaInput({
 
   return (
     <div>
-      <span className="mb-1.5 block text-sm font-medium text-foreground">{label}</span>
+      {label ? (
+        <span className="mb-1.5 block text-sm font-medium text-foreground">{label}</span>
+      ) : null}
+      {hint ? <p className="mb-1.5 text-xs text-muted-foreground">{hint}</p> : null}
       <div className="flex items-start gap-3">
         <div className="grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded-lg border border-border bg-muted">
           {preview ? (

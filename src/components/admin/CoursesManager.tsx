@@ -20,6 +20,7 @@ import {
   updateCourse,
   deleteCourse,
   reorderCourses,
+  toggleCoursePublished,
 } from "@/lib/cms.functions";
 import type { CourseRow, SampleVideo } from "@/lib/content.functions";
 import { parseSampleVideos } from "@/lib/content.functions";
@@ -61,6 +62,7 @@ export function CoursesManager() {
   const update = useServerFn(updateCourse);
   const remove = useServerFn(deleteCourse);
   const reorder = useServerFn(reorderCourses);
+  const toggle = useServerFn(toggleCoursePublished);
 
   const list = useQuery({ queryKey: ["admin-courses"], queryFn: () => fetchList() });
   const invalidate = () => qc.invalidateQueries({ queryKey: ["admin-courses"] });
@@ -90,6 +92,11 @@ export function CoursesManager() {
     mutationFn: (ids: string[]) => reorder({ data: { ids } }),
     onSuccess: invalidate,
   });
+  const toggleMut = useMutation({
+    mutationFn: (v: { id: string; is_published: boolean }) => toggle({ data: v }),
+    onSuccess: invalidate,
+  });
+
 
   const courses = list.data ?? [];
 
@@ -164,6 +171,9 @@ export function CoursesManager() {
                 last={i === courses.length - 1}
                 onUp={() => move(i, -1)}
                 onDown={() => move(i, 1)}
+                onToggle={() =>
+                  toggleMut.mutate({ id: c.id, is_published: !c.is_published })
+                }
                 onEdit={() => {
                   setEditingId(c.id);
                   setAdding(false);
@@ -186,6 +196,7 @@ function CourseRowView({
   last,
   onUp,
   onDown,
+  onToggle,
   onEdit,
   onDelete,
 }: {
@@ -194,6 +205,7 @@ function CourseRowView({
   last: boolean;
   onUp: () => void;
   onDown: () => void;
+  onToggle: () => void;
   onEdit: () => void;
   onDelete: () => void;
 }) {
@@ -233,6 +245,17 @@ function CourseRowView({
           className="grid h-8 w-8 place-items-center rounded-lg border border-input hover:bg-accent disabled:opacity-30"
         >
           <ArrowDown className="h-4 w-4" />
+        </button>
+        <button
+          onClick={onToggle}
+          title={course.is_published ? "Hide from website" : "Show on website"}
+          className={`grid h-8 w-8 place-items-center rounded-lg border hover:bg-accent ${
+            course.is_published
+              ? "border-input text-foreground"
+              : "border-secondary/40 bg-secondary/10 text-secondary"
+          }`}
+        >
+          {course.is_published ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
         </button>
         <button
           onClick={onEdit}
@@ -314,7 +337,12 @@ function CourseForm({
           ))}
         </select>
       </div>
-      <MediaInput value={draft.image_url} onChange={(v) => setDraft({ ...draft, image_url: v })} />
+      <MediaInput
+        label="Course image"
+        hint="Recommended size: 800 × 600 px (4:3), landscape. Max 5MB."
+        value={draft.image_url}
+        onChange={(v) => setDraft({ ...draft, image_url: v })}
+      />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
