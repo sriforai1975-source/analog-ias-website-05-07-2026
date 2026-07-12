@@ -279,6 +279,7 @@ function ResultForm({
       </div>
       <MediaInput
         label="Photo"
+        hint="Recommended size: 400 × 400 px (square), portrait headshot. Max 5MB."
         value={draft.image_url}
         onChange={(v) => setDraft({ ...draft, image_url: v })}
       />
