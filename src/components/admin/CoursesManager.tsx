@@ -62,6 +62,7 @@ export function CoursesManager() {
   const update = useServerFn(updateCourse);
   const remove = useServerFn(deleteCourse);
   const reorder = useServerFn(reorderCourses);
+  const toggle = useServerFn(toggleCoursePublished);
 
   const list = useQuery({ queryKey: ["admin-courses"], queryFn: () => fetchList() });
   const invalidate = () => qc.invalidateQueries({ queryKey: ["admin-courses"] });
