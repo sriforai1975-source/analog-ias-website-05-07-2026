@@ -8,7 +8,7 @@ import { upsertPageContent } from "@/lib/cms.functions";
 import { MediaInput } from "@/components/admin/MediaInput";
 
 type FieldType = "text" | "textarea" | "stringList" | "statList" | "media";
-type FieldDef = { name: string; label: string; type: FieldType };
+type FieldDef = { name: string; label: string; type: FieldType; hint?: string };
 type PageDef = { key: string; label: string; fields: FieldDef[] };
 
 const PAGES: PageDef[] = [
