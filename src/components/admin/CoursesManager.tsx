@@ -247,6 +247,17 @@ function CourseRowView({
           <ArrowDown className="h-4 w-4" />
         </button>
         <button
+          onClick={onToggle}
+          title={course.is_published ? "Hide from website" : "Show on website"}
+          className={`grid h-8 w-8 place-items-center rounded-lg border hover:bg-accent ${
+            course.is_published
+              ? "border-input text-foreground"
+              : "border-secondary/40 bg-secondary/10 text-secondary"
+          }`}
+        >
+          {course.is_published ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+        </button>
+        <button
           onClick={onEdit}
           className="grid h-8 w-8 place-items-center rounded-lg border border-input hover:bg-accent"
         >
