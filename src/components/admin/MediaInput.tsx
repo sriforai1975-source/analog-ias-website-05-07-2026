@@ -9,10 +9,12 @@ export function MediaInput({
   value,
   onChange,
   label = "Image",
+  hint,
 }: {
   value: string | null;
   onChange: (value: string | null) => void;
   label?: string;
+  hint?: string;
 }) {
   const upload = useServerFn(uploadMedia);
   const inputRef = useRef<HTMLInputElement>(null);
