@@ -39,8 +39,13 @@ const PAGES: PageDef[] = [
       { name: "values", label: "Value points", type: "stringList" },
       { name: "founder_name", label: "Founder name", type: "text" },
       { name: "founder_title", label: "Founder title/designation", type: "text" },
-      { name: "founder_bio", label: "Founder bio paragraphs", type: "stringList" },
-      { name: "founder_image", label: "Founder photo", type: "media" },
+      {
+        name: "founder_bio",
+        label: "Founder description",
+        type: "textarea",
+        hint: "Write the founder's bio here. Separate paragraphs with a blank line.",
+      },
+      { name: "founder_image", label: "Founder photo", type: "media", hint: "Recommended size: 640 × 800 px (4:5), portrait. Upload a real image file (JPG/PNG) — a shared web link won't display. Max 5MB." },
     ],
   },
   {
