@@ -337,7 +337,12 @@ function CourseForm({
           ))}
         </select>
       </div>
-      <MediaInput value={draft.image_url} onChange={(v) => setDraft({ ...draft, image_url: v })} />
+      <MediaInput
+        label="Course image"
+        hint="Recommended size: 800 × 600 px (4:3), landscape. Max 5MB."
+        value={draft.image_url}
+        onChange={(v) => setDraft({ ...draft, image_url: v })}
+      />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
