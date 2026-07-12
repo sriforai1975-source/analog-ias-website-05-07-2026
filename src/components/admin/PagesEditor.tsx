@@ -173,6 +173,7 @@ function PageForm({ def }: { def: PageDef }) {
       {def.fields.map((f) => (
         <div key={f.name}>
           <label className="mb-1.5 block text-sm font-medium text-foreground">{f.label}</label>
+          {f.hint ? <p className="mb-1.5 text-xs text-muted-foreground">{f.hint}</p> : null}
           {f.type === "text" && (
             <input
               className={inputCls}
