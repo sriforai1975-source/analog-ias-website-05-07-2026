@@ -20,6 +20,7 @@ import {
   updateCourse,
   deleteCourse,
   reorderCourses,
+  toggleCoursePublished,
 } from "@/lib/cms.functions";
 import type { CourseRow, SampleVideo } from "@/lib/content.functions";
 import { parseSampleVideos } from "@/lib/content.functions";
