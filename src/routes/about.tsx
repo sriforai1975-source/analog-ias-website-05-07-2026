@@ -65,10 +65,18 @@ function About() {
     Array.isArray(c.values) && c.values.length > 0 ? (c.values as string[]) : defaultValues;
   const founderName = str(c, "founder_name", "Srikanth Vinnakota");
   const founderTitle = str(c, "founder_title", "Founder & Managing Director");
-  const founderBio =
-    Array.isArray(c.founder_bio) && c.founder_bio.length > 0
-      ? (c.founder_bio as string[])
-      : defaultFounderBio;
+  const founderBio = (() => {
+    if (Array.isArray(c.founder_bio) && c.founder_bio.length > 0) {
+      return (c.founder_bio as string[]).filter((p) => p && p.trim());
+    }
+    if (typeof c.founder_bio === "string" && c.founder_bio.trim()) {
+      return c.founder_bio
+        .split(/\n\s*\n/)
+        .map((p) => p.trim())
+        .filter(Boolean);
+    }
+    return defaultFounderBio;
+  })();
   const founderImg = mediaUrl(typeof c.founder_image === "string" ? c.founder_image : null);
   const founderInitials = founderName
     .split(" ")
