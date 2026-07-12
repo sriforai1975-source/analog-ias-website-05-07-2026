@@ -171,6 +171,9 @@ export function CoursesManager() {
                 last={i === courses.length - 1}
                 onUp={() => move(i, -1)}
                 onDown={() => move(i, 1)}
+                onToggle={() =>
+                  toggleMut.mutate({ id: c.id, is_published: !c.is_published })
+                }
                 onEdit={() => {
                   setEditingId(c.id);
                   setAdding(false);
