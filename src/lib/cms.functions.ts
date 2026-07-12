@@ -154,6 +154,23 @@ export const reorderCourses = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+export const toggleCoursePublished = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { id: string; is_published: boolean }) =>
+    z.object({ id: z.string().uuid(), is_published: z.boolean() }).parse(d),
+  )
+  .handler(async ({ context, data }) => {
+    await assertStaff(context);
+    const { error } = await context.supabase
+      .from("courses")
+      .update({ is_published: data.is_published })
+      .eq("id", data.id);
+    if (error) throw new Error("Could not update course visibility");
+    return { ok: true };
+  });
+
+
+
 /* ============ Results ============ */
 
 export const listAllResults = createServerFn({ method: "GET" })
